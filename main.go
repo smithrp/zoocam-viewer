@@ -141,7 +141,7 @@ func killAll() {
 	log.Println("killing all existing streams")
 	for _, proc := range commands {
 		log.Println("killing process ", proc.Process.Pid)
-		proc.Process.Kill()
+		// proc.Process.Kill()
 	}
 }
 
