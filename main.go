@@ -37,6 +37,7 @@ func main() {
 	http.HandleFunc("/pick", serveOne)
 	http.HandleFunc("/stop", serveStop)
 	// showAll()
+	log.Println("server started...")
 	log.Fatal(http.ListenAndServe(":2000", nil))
 }
 
@@ -110,7 +111,7 @@ func showAll() {
 		endWidth := startWidth + (index * widthStep)
 		endHeight := startHeight + (index * heightStep)
 		log.Printf("end width is %v and end height is %v\n", endWidth, endHeight)
-		cmd := exec.Command("omxplayer", "-b", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
+		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
 		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
