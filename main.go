@@ -108,9 +108,9 @@ func showAll() {
 	widthStep := width / boxes
 	heightStep := height / boxes
 	//We now have a box X box width screen (say 3x3), so split the screen appropriately
-	for index, s := range streams {
-		endWidth := startWidth + ((index + 1) * widthStep)
-		endHeight := startHeight + ((index + 1) * heightStep)
+	for _, s := range streams {
+		endWidth := startWidth + widthStep
+		endHeight := startHeight + heightStep
 		log.Printf("end width is %v and end height is %v\n", endWidth, endHeight)
 		log.Printf("dimensions of window: %v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight)
 		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
