@@ -1,0 +1,33 @@
+[{
+"name": "Ape",
+"stream": "rtmp://ape.live.camzonecdn.com/CamzoneStreams/ape",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-ape.jpg"
+},{
+"name": "Condor",
+"stream": "rtmp://zssd-condorhd.live.camzonecdn.com/CamzoneStreams/zssd-condorhd",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-condor.jpg"
+},{
+"name": "Elephant",
+"stream": "rtmp://elephants.live.camzonecdn.com/CamzoneStreams/elephants",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-elephant.jpg"
+},{
+"name": "Koala",
+"stream": "rtmp://zssd-koala.live.camzonecdn.com/CamzoneStreams/zssd-koala",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-koala.jpg"
+},{
+"name": "Panda",
+"stream": "rtmp://zssd-panda.live.camzonecdn.com/CamzoneStreams/zssd-panda",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-panda.jpg"
+},{
+"name": "Penguin",
+"stream": "rtmp://zssd-penguin.live.camzonecdn.com/CamzoneStreams/zssd-penguin",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-penguin.jpg"
+},{
+"name": "Polar",
+"stream": "rtmp://polarplunge.live.camzonecdn.com/CamzoneStreams/polarplunge",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-polar.jpg"
+},{
+"name": "Tiger",
+"stream": "rtmp://zssd-tiger.live.camzonecdn.com/CamzoneStreams/zssd-tiger",
+"image": "http://animals.sandiegozoo.org/themes/animals/images/live-cams-tiger.jpg"
+}]

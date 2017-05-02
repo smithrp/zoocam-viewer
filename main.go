@@ -113,6 +113,7 @@ func showAll() {
 		cmd := exec.Command("omxplayer", "-b", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
 		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
 		cmd.Start()
 		commands = append(commands, cmd)
 	}
