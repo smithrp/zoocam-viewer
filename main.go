@@ -119,9 +119,9 @@ func showAll() {
 		cmd.Stderr = os.Stderr
 		commands = append(commands, cmd)
 		cmd.Start()
-		time.Sleep(5 * time.Second)
-		startWidth = endWidth
-		startHeight = endHeight
+		time.Sleep(7 * time.Second)
+		startWidth += widthStep
+		startHeight += heightStep
 	}
 }
 
