@@ -49,7 +49,7 @@ func main() {
 	http.HandleFunc("/stop", serveStop)
 	// showAll()
 	log.Println("server started...")
-	log.Fatal(http.ListenAndServe(":80", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func renderWebsite(w http.ResponseWriter) {
