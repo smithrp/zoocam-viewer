@@ -134,15 +134,17 @@ func showOne(s stream) {
 	cmd := exec.Command("omxplayer", "-b", s.Stream)
 	// cmd := exec.Command("mplayer", s.Stream)
 	cmd.Start()
-	commands = append(commands, cmd)
+	// commands = append(commands, cmd)
 }
 
 func killAll() {
 	log.Println("killing all existing streams")
-	for _, proc := range commands {
-		log.Println("killing process ", proc.Process.Pid)
-		// proc.Process.Kill()
-	}
+	cmd := exec.Command("sudo", "killall", "omxplayer.bin")
+	cmd.Run()
+	// for _, proc := range commands {
+	// 	// log.Println("killing process ", proc.Process.Pid)
+	// 	proc.Process.Kill()
+	// }
 }
 
 func setupBoxes() {
