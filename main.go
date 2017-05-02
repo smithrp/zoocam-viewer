@@ -35,6 +35,7 @@ func main() {
 	http.HandleFunc("/", serveIndex)
 	http.HandleFunc("/all", serveAll)
 	http.HandleFunc("/pick", serveOne)
+	http.HandleFunc("/stop", serveStop)
 	// showAll()
 	log.Fatal(http.ListenAndServe(":2000", nil))
 }
@@ -49,6 +50,7 @@ func renderWebsite(w http.ResponseWriter) {
 	</head>
 	<body>
     <div><h1><a href="/all">All</a></h1></div>
+		<div><h1><a href="/stop">Stop</a></h1></div>
 		{{range .Streams}}<div>{{ .Name }}</div><div><a href="/pick?name={{.Name}}"><img src="{{.Image}}"/></a></div>{{else}}<div><strong>no streams</strong></div>{{end}}
 	</body>
 </html>`
@@ -80,6 +82,11 @@ func serveOne(w http.ResponseWriter, r *http.Request) {
 			showOne(stream)
 		}
 	}
+	renderWebsite(w)
+}
+
+func serveStop(w http.ResponseWriter, r *http.Request) {
+	killAll()
 	renderWebsite(w)
 }
 
