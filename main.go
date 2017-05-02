@@ -13,7 +13,8 @@ import (
 
 var streams []stream
 var boxes []screen
-var commands []*exec.Cmd
+
+// var commands []*exec.Cmd
 
 type stream struct {
 	Name     string
@@ -121,7 +122,7 @@ func showAll() {
 		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
-		commands = append(commands, cmd)
+		// commands = append(commands, cmd)
 		cmd.Start()
 		// time.Sleep(1 * time.Second)
 	}
