@@ -94,8 +94,8 @@ func serveStop(w http.ResponseWriter, r *http.Request) {
 
 func showAll() {
 	killAll()
-	width := 1900
-	height := 1200
+	width := 1920
+	height := 1080
 	streamCount := len(streams)
 
 	//Determine how many streams we have to make even boxed grids
@@ -109,16 +109,17 @@ func showAll() {
 	heightStep := height / boxes
 	//We now have a box X box width screen (say 3x3), so split the screen appropriately
 	for index, s := range streams {
-		endWidth := startWidth + (index * widthStep)
-		endHeight := startHeight + (index * heightStep)
+		endWidth := startWidth + ((index + 1) * widthStep)
+		endHeight := startHeight + ((index + 1) * heightStep)
 		log.Printf("end width is %v and end height is %v\n", endWidth, endHeight)
+		log.Printf("dimensions of window: %v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight)
 		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
 		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		commands = append(commands, cmd)
 		cmd.Start()
-		time.Sleep(1 * time.Second)
+		time.Sleep(3 * time.Second)
 	}
 }
 
