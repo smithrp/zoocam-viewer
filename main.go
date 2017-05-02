@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path"
+	"runtime"
 )
 
 var streams []stream
@@ -32,7 +34,11 @@ type screen struct {
 
 func main() {
 	//Read in urls of webcams from configuration file
-	data, err := ioutil.ReadFile("streams.json")
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		panic("No caller information")
+	}
+	data, err := ioutil.ReadFile(path.Dir(filename) + "/streams.json")
 	if err != nil {
 		panic(err)
 	}

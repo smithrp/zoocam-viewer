@@ -8,7 +8,7 @@
 # Description:       <DESCRIPTION>
 ### END INIT INFO
 
-SCRIPT=zoocam
+SCRIPT=/home/pi/dev/src/zoocam-viewer/zoocam
 RUNAS=pi
 
 PIDFILE=/var/run/zoocam.pid
