@@ -13,12 +13,21 @@ import (
 )
 
 var streams []stream
+var boxes []screen
 var commands []*exec.Cmd
 
 type stream struct {
-	Name   string
-	Stream string
-	Image  string
+	Name     string
+	Stream   string
+	Image    string
+	Favorite bool
+}
+
+type screen struct {
+	StartX int
+	StartY int
+	EndX   int
+	EndY   int
 }
 
 func main() {
@@ -31,6 +40,8 @@ func main() {
 	if err := json.Unmarshal(data, &streams); err != nil {
 		panic(err)
 	}
+
+	setupBoxes()
 
 	//Startup webserver to listen to commands to execute video player
 	http.HandleFunc("/", serveIndex)
@@ -94,34 +105,26 @@ func serveStop(w http.ResponseWriter, r *http.Request) {
 
 func showAll() {
 	killAll()
-	width := 1920
-	height := 1080
-	streamCount := len(streams)
 
-	//Determine how many streams we have to make even boxed grids
-	boxes := 1
-	for ; boxes*boxes < streamCount; boxes++ {
+	favoriteStreams := []stream{}
+	for _, s := range streams {
+		if s.Favorite {
+			favoriteStreams = append(favoriteStreams, s)
+		}
 	}
 
-	startWidth := 0
-	startHeight := 0
-	widthStep := width / boxes
-	heightStep := height / boxes
-	//We now have a box X box width screen (say 3x3), so split the screen appropriately
-	for _, s := range streams {
-		endWidth := startWidth + widthStep
-		endHeight := startHeight + heightStep
-		log.Printf("end width is %v and end height is %v\n", endWidth, endHeight)
-		log.Printf("dimensions of window: %v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight)
-		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
+	for index, s := range favoriteStreams {
+		if index >= len(boxes) {
+			panic("Boxes were not properly configured")
+		}
+		box := boxes[index]
+		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", box.StartX, box.StartY, box.EndX, box.EndY), s.Stream)
 		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		commands = append(commands, cmd)
 		cmd.Start()
-		time.Sleep(7 * time.Second)
-		startWidth += widthStep
-		startHeight += heightStep
+		time.Sleep(1 * time.Second)
 	}
 }
 
@@ -138,5 +141,41 @@ func killAll() {
 	log.Println("killing all existing streams")
 	for _, proc := range commands {
 		proc.Process.Kill()
+	}
+}
+
+func setupBoxes() {
+	//For now we're going to hard code a 3x2 grid across the screen
+	width := 1920
+	height := 1080
+
+	//Create boxes based on the width and height of the screen
+
+	widthStep := width / 3
+	heightStep := height / 2
+
+	//Row1
+	for i := 0; i < 3; i++ {
+		box := screen{
+			StartX: i * widthStep,
+			StartY: 0,
+			EndX:   (i * widthStep) + widthStep,
+			EndY:   heightStep,
+		}
+		boxes = append(boxes, box)
+	}
+	//Row2
+	for i := 0; i < 3; i++ {
+		box := screen{
+			StartX: i * widthStep,
+			StartY: heightStep,
+			EndX:   (i * widthStep) + widthStep,
+			EndY:   heightStep + heightStep,
+		}
+		boxes = append(boxes, box)
+	}
+
+	for _, box := range boxes {
+		log.Printf("screen size: %v,%v,%v,%v\n", box.StartX, box.StartY, box.EndX, box.EndY)
 	}
 }
