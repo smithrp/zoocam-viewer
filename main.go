@@ -120,6 +120,8 @@ func showAll() {
 		commands = append(commands, cmd)
 		cmd.Start()
 		time.Sleep(5 * time.Second)
+		startWidth = endWidth
+		startHeight = endHeight
 	}
 }
 
