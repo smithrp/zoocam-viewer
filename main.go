@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"time"
 )
 
 var streams []stream
@@ -115,8 +116,9 @@ func showAll() {
 		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
-		cmd.Start()
 		commands = append(commands, cmd)
+		cmd.Start()
+		time.Sleep(1 * time.Second)
 	}
 }
 
