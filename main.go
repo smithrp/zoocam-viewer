@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"time"
 )
 
 var streams []stream
@@ -124,7 +123,7 @@ func showAll() {
 		cmd.Stderr = os.Stderr
 		commands = append(commands, cmd)
 		cmd.Start()
-		time.Sleep(1 * time.Second)
+		// time.Sleep(1 * time.Second)
 	}
 }
 
