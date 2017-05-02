@@ -119,7 +119,7 @@ func showAll() {
 		cmd.Stderr = os.Stderr
 		commands = append(commands, cmd)
 		cmd.Start()
-		time.Sleep(3 * time.Second)
+		time.Sleep(5 * time.Second)
 	}
 }
 
