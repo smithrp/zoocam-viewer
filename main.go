@@ -115,7 +115,7 @@ func showAll() {
 func showOne(s stream) {
 	killAll()
 	//Startup in fullscreen
-	cmd := exec.Command("mplayer", s.Stream)
+	cmd := exec.Command("omxplayer", s.Stream)
 	cmd.Start()
 	commands = append(commands, cmd)
 }
