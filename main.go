@@ -35,10 +35,8 @@ func main() {
 	http.HandleFunc("/", serveIndex)
 	http.HandleFunc("/all", serveAll)
 	http.HandleFunc("/pick", serveOne)
+	// showAll()
 	log.Fatal(http.ListenAndServe(":2000", nil))
-	log.Println("Webserver started")
-
-	//Startup players in default mode (view all)
 }
 
 func renderWebsite(w http.ResponseWriter) {
