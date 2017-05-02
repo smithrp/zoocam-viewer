@@ -2,7 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"io"
+	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -40,28 +41,48 @@ func main() {
 	//Startup players in default mode (view all)
 }
 
+func renderWebsite(w http.ResponseWriter) {
+	const tpl = `
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Zoo Cam Viewer</title>
+	</head>
+	<body>
+    <div><h1><a href="/all">All</a></h1></div>
+		{{range .Streams}}<div>{{ .Name }}</div><div><a href="/pick?name={{.Name}}"><img src="{{.Image}}"/></a></div>{{else}}<div><strong>no streams</strong></div>{{end}}
+	</body>
+</html>`
+	t, err := template.New("webpage").Parse(tpl)
+	if err != nil {
+		panic(err)
+	}
+	t.Execute(w, struct{ Streams []stream }{Streams: streams})
+}
+
 func serveIndex(w http.ResponseWriter, r *http.Request) {
 	//Serve up basic website with icons to choose from with "all" option
-	io.WriteString(w, "Hello world!")
+	renderWebsite(w)
 }
 
 func serveAll(w http.ResponseWriter, r *http.Request) {
 	//Close all existing processes, and fire up all the videos
 	showAll()
-	io.WriteString(w, "success")
+	renderWebsite(w)
 }
 
 func serveOne(w http.ResponseWriter, r *http.Request) {
 	//Close all existing processes, and fire up the single video passed in
 	name := r.FormValue("name")
-	log.Println("got name of " + name)
+	log.Println("got stream name of " + name)
 	for _, stream := range streams {
 		if stream.Name == name {
 			log.Println("Starting stream " + stream.Name)
 			showOne(stream)
 		}
 	}
-	io.WriteString(w, "success")
+	renderWebsite(w)
 }
 
 func showAll() {
@@ -84,7 +105,7 @@ func showAll() {
 		endWidth := startWidth + (index * widthStep)
 		endHeight := startHeight + (index * heightStep)
 		log.Printf("end width is %v and end height is %v\n", endWidth, endHeight)
-		cmd := exec.Command("mplayer", s.Stream) //"--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight),
+		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Start()
 		commands = append(commands, cmd)
@@ -100,7 +121,7 @@ func showOne(s stream) {
 }
 
 func killAll() {
-	log.Println("killing all existing commands")
+	log.Println("killing all existing streams")
 	for _, proc := range commands {
 		proc.Process.Kill()
 	}
