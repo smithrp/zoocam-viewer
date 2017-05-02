@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -102,8 +103,8 @@ func showAll() {
 		endWidth := startWidth + (index * widthStep)
 		endHeight := startHeight + (index * heightStep)
 		log.Printf("end width is %v and end height is %v\n", endWidth, endHeight)
-		// cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
-		cmd := exec.Command("mplayer", s.Stream)
+		cmd := exec.Command("omxplayer", "--win", fmt.Sprintf("%v,%v,%v,%v", startWidth, startHeight, endWidth, endHeight), s.Stream)
+		// cmd := exec.Command("mplayer", s.Stream)
 		cmd.Stdout = os.Stdout
 		cmd.Start()
 		commands = append(commands, cmd)
@@ -113,8 +114,8 @@ func showAll() {
 func showOne(s stream) {
 	killAll()
 	//Startup in fullscreen
-	// cmd := exec.Command("omxplayer", s.Stream)
-	cmd := exec.Command("mplayer", s.Stream)
+	cmd := exec.Command("omxplayer", s.Stream)
+	// cmd := exec.Command("mplayer", s.Stream)
 	cmd.Start()
 	commands = append(commands, cmd)
 }
